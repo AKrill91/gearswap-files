@@ -1,0 +1,3 @@
+function precast(spell)
+	
+end
