@@ -46,7 +46,7 @@ function get_sets()
 	)
 
 	flags = T{
-		verbose = true
+		verbose = false
 	}
 	
 	decorations = T{
