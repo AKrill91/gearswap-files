@@ -1,3 +1,5 @@
+include('organizer-lib')
+
 function setOrToggle(current, incoming)
 	local output = not current
 	if(incoming ~= nil) then
