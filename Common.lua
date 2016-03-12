@@ -46,36 +46,57 @@ function get_sets()
 	)
 
 	flags = T{
-		verbose = false
+		verbose = true
 	}
 	
-	decorations = T{}
+	decorations = T{
+		precast = T{},
+		midcast = T{},
+		aftercast = T{}
+	}
 	
 	commands = {
 		verbose = function(arg) flags.verbose = setOrToggle(flags.verbose, arg) end,
 		update = update,
 		status = function()
 			local copy = flags:copy()
-			for k,v in pairs(decorations) do
-				copy[k] = '{'..v:concat(', ')..'}'
+			for k, v in pairs(decorations) do
+				local key = 'decorations_'..k
+				for l, w in pairs(v) do
+					copy[key..'_'..l] = '{'..w:concat(', ')..'}'
+				end
 			end
 			print_set(copy)
 		end,
 		decorate = function(...) 
-			--TODO consider append/prepend instead of replace?
-			decorations[arg[1]] = T(arg):slice(2)
-			update()
+			if #arg >= 2 then
+				local status = string.lower(arg[1])
+				local spell = string.lower(arg[2])
+				
+				local decor = sets.decorations
+				
+				if decor[status] ~= nil and decor[status][spell] ~= nil then 
+					vprint('Updating decorations.'..status..'.'..spell)
+					--TODO consider append/prepend instead of replace?
+					decorations[status][spell] = T(arg):slice(3)
+					update()
+				end
+			end
 		end
 	}
 	
 	sets.precast = T{}
 	sets.midcast = T{}
 	sets.aftercast = T{}
-	sets.decorations = T{}
+	sets.decorations = T{
+		precast = T{},
+		midcast = T{},
+		aftercast = T{}
+	}
 	
 	init()
 	
-	update()
+	send_command('gs org')
 end
 
 function update()
@@ -120,6 +141,9 @@ function determine_gear(spell, timing)
 		return
 	end
 	
+	--Priority to apply equipment
+	--e.g. magic -> blackmagic -> elementalmagic -> fire
+	local priority = T{'action_type', 'type', 'skill', 'english'}
 	local status = string.lower(player.status)
 	
 	vprint('Determining gear for {timing: '..timing..', status: '..status..'}')
@@ -130,10 +154,6 @@ function determine_gear(spell, timing)
 		equip(sets[timing][status])
 	end
 	
-	--Priority to apply equipment
-	--e.g. magic -> blackmagic -> elementalmagic -> fire
-	local priority = T{'action_type', 'type', 'skill', 'english'}
-	
 	for i = 1, #priority do
 		local setName = string.lower(spell[priority[i]])
 		if sets[timing][setName] ~= nil then
@@ -142,29 +162,53 @@ function determine_gear(spell, timing)
 		end
 	end
 	
-	priority = priority:reverse()
+	--After primary gear check for decorations
+	handle_decorations(spell, timing, status)
 	
-	for i = 1, #priority do
-		local setName = string.lower(spell[priority[i]])
-		local decor = decorations[setName]
-		if decor ~= nil and sets.decorations[setName] ~= nil then
-			for key, value in pairs(decor) do
-				vprint('Equipping sets.decorations.'..setName..'.'..value)
-				equip(sets.decorations[setName][value])
-			end
-		end
-	end
-	
+	--After decorations check for conditionals
 	handle_conditionals(spell, timing, status)
 end
 
 function self_command(command)
+	command = string.gsub(command, '%s+', ' ')
     words = T(command:split(' '))
 	if(commands[words[1]] ~= nil) then
 		local args = words:slice(2)
 		commands[words[1]](unpack(args))
 	else
 		add_to_chat(8, 'unknown command \''..words[1]..'\'.')
+	end
+end
+
+function handle_decorations(spell, timing, status)
+	local priority = T{'action_type', 'type', 'skill', 'english'}
+	local decor = decorations[timing]
+	local decorSets = sets.decorations[timing]
+	
+	if decor ~= nil and decorSets ~= nil then
+		if decor[status] ~= nil and decorSets[status] ~= nil then
+			for key, value in pairs(decor[status]) do
+				if decorSets[status][value] ~= nil then
+					vprint('Equipping sets.decorations.'..timing..'.'..status..'.'..value)
+					equip(decorSets[status][value])
+				end
+			end
+		end
+		
+		for i = 1, #priority do
+			local setName = spell[priority[i]]
+			local spellDecor = decor[setName]
+			local spellDecorSets = decorSets[setName]
+			
+			if spellDecor ~= nil and spellDecorSets ~= nil then
+				for key, value in pairs(spellDecor) do
+					if spellDecorSets[value] ~= nil then
+						vprint('Equipping sets.decorations.'..timing..'.'..setName..'.'..value)
+						equip(spellDecorSets[value])
+					end
+				end
+			end
+		end
 	end
 end
 

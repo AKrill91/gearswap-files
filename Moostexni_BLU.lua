@@ -138,14 +138,14 @@ function init()
 	sets.midcast.entomb = sets.midcast.subduction
 	sets.midcast['spectral floe'] = sets.midcast.subduction
 	
-	sets.decorations.idle = {}
-	sets.decorations.engaged = {}
+	sets.decorations.aftercast.idle = {}
+	sets.decorations.aftercast.engaged = {}
 	
-	sets.decorations.idle.refresh = {
+	sets.decorations.aftercast.idle.refresh = {
 		legs = 'Stearc Subligar'
 	}
 	
-	sets.decorations.idle.pdt = {
+	sets.decorations.aftercast.idle.pdt = {
 		head = 'Taeon Chapeau',
 		hands = 'Taeon Gloves',
 		lring = {
@@ -166,7 +166,7 @@ function init()
 		feet = 'Taeon Boots'
 	}
 	
-	sets.decorations.engaged.acc = {
+	sets.decorations.aftercast.engaged.acc = {
 		body = 'Luhlaza Jubbah',
 		waist = 'Anguinus Belt'
 	}
