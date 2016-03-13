@@ -28,10 +28,6 @@ function init()
 		hands = 'Bagua Mitaines'
 	}
 	
-	sets.precast['geomancy'] = {
-		hands = 'Geomancy Mitaines'
-	}
-	
 	sets.precast['full circle'] = {
 		head = 'Azimuth Hood',
 		hands = 'Bagua Mitaines'
@@ -64,7 +60,7 @@ function init()
 		hands = 'Helios Gloves',
 		lring = 'Perception Ring',
 		rring = 'Acumen Ring',
-		legs = 'Telchine Braconi',
+		legs = 'Azimuth Tights',
 		feet = 'Wayfarer Clogs'
 	}
 	
@@ -75,7 +71,8 @@ function init()
 	
 	sets.midcast['dark magic'] = {
 		head = 'Bagua Galero',
-		body = 'Geomancy Tunic'
+		body = 'Geomancy Tunic',
+		legs = 'Azimuth Tights'
 	}
 	
 	sets.aftercast.idle = {
@@ -125,7 +122,8 @@ function handle_conditionals(spell, timing, status)
 			equip(sets.midcast.indicolure)
 		end
 	elseif timing == 'aftercast' then
-		if status == 'idle' and (pet.isvalid or string.sub(spellName, 1, 3)  == 'geo') and not spellName == 'full circle' then
+		local killsPet = T{'full circle', 'radial arcana', 'concentric pulse'}:contains(spellName)
+		if status == 'idle' and (pet.isvalid or string.sub(spellName, 1, 3)  == 'geo') and not killsPet then
 			vprint('Equipping sets.aftercast.idlepet')
 			equip(sets.aftercast.idlepet)
 		end

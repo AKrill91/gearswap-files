@@ -21,6 +21,18 @@ function vprintset(set)
 	end
 end
 
+function keys(t)
+	local keys = {}
+	local n = 0
+	
+	for k, v in pairs(t) do
+		n = n + 1
+		keys[n] = k
+	end
+	
+	return keys
+end
+
 function init()
 
 end
@@ -46,7 +58,8 @@ function get_sets()
 	)
 
 	flags = T{
-		verbose = false
+		verbose = true,
+		cp = false
 	}
 	
 	decorations = T{
@@ -82,7 +95,21 @@ function get_sets()
 					update()
 				end
 			end
+		end,
+		cp = function(arg) 
+			flags.cp = setOrToggle(flags.cp, arg)
+			if flags.cp then
+				equip(sets.cp)
+				disable(unpack(keys(sets.cp)))
+			else
+				enable(unpack(keys(sets.cp)))
+				update()
+			end
 		end
+	}
+	
+	sets.cp = {
+	
 	}
 	
 	sets.precast = T{}

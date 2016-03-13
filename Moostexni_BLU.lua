@@ -1,17 +1,5 @@
 include('Common')
 
-function keys(t)
-	local keys = {}
-	local n = 0
-	
-	for k, v in pairs(t) do
-		n = n + 1
-		keys[n] = k
-	end
-	
-	return keys
-end
-
 function init() 
 	flags.learning = false
 	
@@ -120,7 +108,7 @@ function init()
 		lear = 'Friomisi Earring',
 		rear = 'Hecate\'s Earring',
 		body = 'Wayfarer Robe',
-		hands = 'Helios Gloves',
+		hands = 'Hashishin Bazubands',
 		lring = 'Perception Ring',
 		rring = 'Acumen Ring',
 		back = 'Cornflower Cape',
@@ -167,8 +155,10 @@ function init()
 	}
 	
 	sets.decorations.aftercast.engaged.acc = {
+		head = 'Hashishin Kavuk',
 		body = 'Luhlaza Jubbah',
-		waist = 'Anguinus Belt'
+		waist = 'Anguinus Belt',
+		feet = 'Assimilator\'s Charuqs +1'
 	}
 end
 
