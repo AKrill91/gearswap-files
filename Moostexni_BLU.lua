@@ -13,6 +13,29 @@ function init()
 			update()
 		end
 	end
+	
+	sets.swords = {
+		main = {
+			name = "Claidheamh Soluis", 
+			augments = {
+				'Accuracy+11 Attack+11', 
+				'"Dbl.Atk."+2',
+				'DEX+16'
+			}
+		},
+		sub = {
+			name = "Claidheamh Soluis", 
+			augments = {
+				'Accuracy+12',
+				'DEX+17'
+			}
+		}
+	}
+	
+	sets.clubs = {
+		main = 'Nibiru Cudgel',
+		sub = 'Eminent Wand'
+	}
 
 	sets.learning = {
 		hands = 'Assimilator\'s Bazubands'
@@ -20,17 +43,50 @@ function init()
 	
 	sets.precast.magic = {
 		head = 'Haruspex Hat',
+		neck = 'Baetyl Pendant',
 		lear = 'Loquacious Earring',
 		body = 'Luhlaza Jubbah',
+		rring = 'Weatherspoon Ring',
 		back = 'Swith Cape',
+		legs = 'Homam Cosciales'
 	}
+	
+	sets.cures = {
+		head = 'Jhakri Coronal +1',
+		neck = 'Noetic Torque',
+		rear = 'Lifestorm Earring',
+		body = 'Jhakri Robe +1',
+		hands = 'Telchine Gloves',
+		lring = 'Perception Ring',
+		waist = 'Penitent\'s Rope',
+		legs = 'Psycloth Lappas',
+		feet = 'Jhakri Pigaches +1'
+	}
+	
+	sets.midcast['magic fruit'] = sets.cures
+	
+	sets.skill = {
+		head = 'Luhlaza Keffiyeh',
+		neck = 'Deceiver\'s Torque',
+		body = 'Assimilator\'s Jubbah +1',
+		hands = 'Rawhide Gloves',
+		back = 'Cornflower Cape',
+		legs = 'Hashishin Tayt',
+		feet = 'Luhlaza Charuqs'
+	}
+	
+	sets.midcast.occultation = sets.skill
 	
 	sets.precast.bluemagic = set_combine(
 		sets.precast.magic,
 		{
-			body = 'Mavi Mintan +2'
+			body = 'Hashishin Mintan'
 		}
 	)
+	
+	sets.precast['azure lore'] = {
+		hands = 'Luhlaza Bazubands'
+	}
 	
 	sets.precast.diffusion = {
 		feet = 'Luhlaza Charuqs'
@@ -40,7 +96,7 @@ function init()
 		head = 'Blood Mask',
 		neck = 'Wiglen Gorget',
 		lear = 'Ethereal Earring',
-		body = 'Assimilator\'s Jubbah',
+		body = 'Jhakri Robe +1',
 		hands = 'Serpentes Cuffs',
 		lring = 'Paguroidea Ring',
 		rring = 'Sheltered Ring',
@@ -52,79 +108,109 @@ function init()
 
 	sets.aftercast.engaged = {
 		ammo = 'Honed Tathlum',
-		head = 'Taeon Chapeau',
+		head = 'Herculean Helm',
 		neck = 'Asperity Necklace',
 		lear = 'Suppanomimi',
 		rear = 'Brutal Earring',
-		body = 'Thaumas Coat',
-		hands = 'Buremte Gloves',
+		body = 'Rawhide Vest',
+		hands = 'Rawhide Gloves',
 		lring = 'Epona\'s Ring',
 		rring = 'Rajas Ring',
-		back = 'Atheling Mantle',
+		back = 'Rosmerta\'s Cape',
 		waist = 'Windbuffet Belt',
-		legs = 'Taeon Tights',
+		legs = 'Herculean Trousers',
 		feet = 'Taeon Boots'
 	}
 
 	sets.precast.weaponskill = {
+		neck = 'Fotia Gorget',
 		lear = 'Moonshade Earring',
 		rear = 'Brutal Earring',
-		body = 'Espial Gambison',
 		lring = 'Epona\'s Ring',
 		rring = 'Rajas Ring',
+		waist = 'Fotia Belt'
 	}
 
 	sets.precast['savage blade'] = set_combine(
 		sets.precast.weaponskill,
 		{
-			neck = 'Soil Gorget',
-			waist = 'Soil Belt'
+			 lring = 'Rufescent Ring'
 		}
 	)
 
 	sets.precast['chant du cygne'] = set_combine(
 		sets.precast.weaponskill,
 		{
-			head = 'Taeon Chapeau',
-			neck = 'Light Gorget',
-			hands = 'Taeon Gloves',
-			waist = 'Light Belt',
-			legs = 'Taeon Tights'
+			ammo = 'Jukukik Feather',
+			head = 'Jhakri Coronal +1',
+			hands = 'Jhakri Cuffs +1',
+			feet = 'Thereoid Greaves'
 		}
 	)
 
 	sets.precast.requiescat = set_combine(
 		sets.precast.weaponskill, 
 		{
-			neck = 'Soil Gorget',
-			waist = 'Soil Belt',
-			legs = 'Telchine Braconi',
+			 lring = 'Rufescent Ring'
 		}
 	)
-
-	sets.midcast.subduction = {
-		head = 'Assimilator\'s Keffiyeh',
+	
+	macc = {
+		head = 'Jhakri Coronal +1',
 		neck = 'Noetic Torque',
+		lear = 'Pensee Earring',
+		rear = 'Hecate\'s Earring',
+		body = 'Jhakri Robe +1',
+		hands = 'Jhakri Cuffs +1',
+		lring = 'Weatherspoon Ring',
+		rring = 'Perception Ring',
+		back = 'Cornflower Cape',
+		waist = 'Penitent\'s Rope',
+		legs = 'Jhakri Slops +1',
+		feet = 'Jhakri Pigaches +1'
+	}
+	
+	sets.macc = macc
+	
+	sets.midcast['blank gaze'] = macc
+	sets.midcast['chaotic eye'] = macc
+	sets.precast['sudden lunge'] = macc
+	sets.precast['auroral drape'] = macc
+	
+	matk = {
+		head = 'Jhakri Coronal +1',
+		neck = 'Baetyl Pendant',
 		lear = 'Friomisi Earring',
 		rear = 'Hecate\'s Earring',
-		body = 'Wayfarer Robe',
-		hands = 'Hashishin Bazubands',
-		lring = 'Perception Ring',
+		body = 'Jhakri Robe +1',
+		hands = 'Jhakri Cuffs +1',
+		lring = 'Weatherspoon Ring',
 		rring = 'Acumen Ring',
 		back = 'Cornflower Cape',
 		waist = 'Penitent\'s Rope',
-		legs = 'Telchine Braconi',
-		feet = 'Hashishin Basmak'
+		legs = 'Jhakri Slops +1',
+		feet = 'Jhakri Pigaches +1'
 	}
-
-	sets.precast['sanguine blade'] = sets.midcast.subduction
-	sets.precast['flash nova'] = sets.midcast.subduction
 	
-	sets.midcast['blinding fulgor'] = sets.midcast.subduction
-	sets.midcast['retinal glare'] = sets.midcast.subduction
-	sets.midcast['magic hammer'] = sets.midcast.subduction
-	sets.midcast.entomb = sets.midcast.subduction
-	sets.midcast['spectral floe'] = sets.midcast.subduction
+	sets.matk = matk
+
+	sets.midcast.subduction = matk
+
+	sets.precast['sanguine blade'] = matk
+	sets.precast['flash nova'] = matk
+	
+	sets.midcast['blinding fulgor'] = matk
+	sets.midcast['retinal glare'] = matk
+	sets.midcast['magic hammer'] = matk
+	sets.midcast.entomb = matk
+	sets.midcast['spectral floe'] = matk
+	sets.midcast.regurgitation = matk
+	sets.midcast['anvil lightning'] = matk
+	sets.midcast['magic hammer'] = matk
+	sets.midcast['silent storm'] = matk
+	sets.midcast['searing tempset'] = matk
+	sets.midcast['tenebral crush'] = matk
+	sets.midcast['charged whisker'] = matk
 	
 	sets.decorations.aftercast.idle = {}
 	sets.decorations.aftercast.engaged = {}
@@ -133,8 +219,10 @@ function init()
 		legs = 'Stearc Subligar'
 	}
 	
-	sets.decorations.aftercast.idle.pdt = {
-		head = 'Taeon Chapeau',
+	sets.decorations.aftercast.idle.dt = {
+		head = 'Herculean Helm',
+		neck = 'Twilight Torque',
+		lear = 'Ethereal Earring',
 		hands = 'Taeon Gloves',
 		lring = {
 			name = "Dark Ring",
@@ -150,15 +238,22 @@ function init()
 				'Phys. dmg. taken -4%'
 			}
 		},
-		legs = 'Taeon Tights',
+		waist = 'Flume Belt',
+		legs = 'Herculean Trousers',
 		feet = 'Taeon Boots'
 	}
 	
+	sets.decorations.aftercast.idle.pdt = set_combine(
+		sets.decorations.aftercast.idle.dt, 
+		{
+			 neck = 'Wiglen Gorget'
+		}
+	)
+	
 	sets.decorations.aftercast.engaged.acc = {
-		head = 'Hashishin Kavuk',
-		body = 'Luhlaza Jubbah',
-		waist = 'Anguinus Belt',
-		feet = 'Assimilator\'s Charuqs +1'
+		neck = 'Decimus Torque',
+		waist = 'Dynamic Belt',
+		feet = 'Jhakri Pigaches +1'
 	}
 end
 

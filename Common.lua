@@ -1,4 +1,4 @@
-include('organizer-lib')
+
 
 function setOrToggle(current, incoming)
 	local output = not current
@@ -109,7 +109,15 @@ function get_sets()
 	}
 	
 	sets.cp = {
+		back = 'Aptitude Mantle'
+	}
 	
+	sets.warp = {
+		lring = 'Warp Ring'
+	}
+	
+	sets.trizek = {
+		lring = 'Trizek Ring'
 	}
 	
 	sets.precast = T{}
@@ -122,8 +130,6 @@ function get_sets()
 	}
 	
 	init()
-	
-	send_command('gs org')
 end
 
 function update()
@@ -168,12 +174,17 @@ function determine_gear(spell, timing)
 		return
 	end
 	
-	--Priority to apply equipment
-	--e.g. magic -> blackmagic -> elementalmagic -> fire
-	local priority = T{'action_type', 'type', 'skill', 'english'}
+	local priorityVals = get_priorities(spell)
 	local status = string.lower(player.status)
 	
-	vprint('Determining gear for {timing: '..timing..', status: '..status..'}')
+	vprint('Determining gear for {timing: '..timing..
+		', status: '..status..
+		', action_type:'..string.lower(priorityVals[1])..
+		', type:'..string.lower(priorityVals[2])..
+		', skill:'..string.lower(priorityVals[3])..
+		', english:'..string.lower(priorityVals[4])..
+		'}'
+	)
 	
 	--First check for sets that apply regardless of spell
 	if sets[timing][status] ~= nil then
@@ -181,8 +192,8 @@ function determine_gear(spell, timing)
 		equip(sets[timing][status])
 	end
 	
-	for i = 1, #priority do
-		local setName = string.lower(spell[priority[i]])
+	for i = 1, #priorityVals do
+		local setName = priorityVals[i]
 		if sets[timing][setName] ~= nil then
 			vprint('Equipping sets.'..timing..'.'..setName)
 			equip(sets[timing][setName])
@@ -199,16 +210,20 @@ end
 function self_command(command)
 	command = string.gsub(command, '%s+', ' ')
     words = T(command:split(' '))
-	if(commands[words[1]] ~= nil) then
+	com = string.lower(words[1])
+	if(commands[com] ~= nil) then
 		local args = words:slice(2)
-		commands[words[1]](unpack(args))
+		commands[com](unpack(args))
+	elseif(sets[com] ~= nil) then
+		vprint("Equipping sets."..com)
+		equip(sets[com])
 	else
-		add_to_chat(8, 'unknown command \''..words[1]..'\'.')
+		add_to_chat(8, 'unknown command \''..com..'\'.')
 	end
 end
 
 function handle_decorations(spell, timing, status)
-	local priority = T{'action_type', 'type', 'skill', 'english'}
+	local priorityVals = get_priorities(spell)
 	local decor = decorations[timing]
 	local decorSets = sets.decorations[timing]
 	
@@ -222,8 +237,8 @@ function handle_decorations(spell, timing, status)
 			end
 		end
 		
-		for i = 1, #priority do
-			local setName = spell[priority[i]]
+		for i = 1, #priorityVals do
+			local setName = priorityVals[i]
 			local spellDecor = decor[setName]
 			local spellDecorSets = decorSets[setName]
 			
@@ -237,6 +252,25 @@ function handle_decorations(spell, timing, status)
 			end
 		end
 	end
+end
+
+function get_priorities(spell)
+	--Priority to apply equipment
+	--e.g. magic -> blackmagic -> elementalmagic -> fire
+	local priority = T{'action_type', 'type', 'skill', 'english'}
+	local priorityVals = T{}
+	
+	for i = 1, #priority do
+		local val = spell[priority[i]]
+		
+		if val == nil then
+			val = 'nil'
+		end
+		
+		priorityVals[i] = string.lower(val)
+	end
+	
+	return priorityVals
 end
 
 function handle_conditionals(spell, timing, status)

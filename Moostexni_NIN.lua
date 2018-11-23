@@ -10,18 +10,18 @@ function init()
 	}
 	
 	sets.aftercast.engaged = {
-		head = 'Taeon Chapeau',
+		head = 'Herculean Helm',
 		neck = 'Asperity Necklace',
 		lear = 'Suppanomimi',
 		rear = 'Brutal Earring',
-		body = 'Thaumas Coat',
-		hands = 'Buremte Gloves',
+		body = 'Rawhide Vest',
+		hands = 'Rawhide Gloves',
 		lring = 'Epona\'s Ring',
 		rring = 'Rajas Ring',
 		back = 'Atheling Mantle',
 		waist = 'Windbuffet Belt',
-		legs = 'Taeon Tights',
-		feet = 'Taeon Boots'
+		legs = 'Tatenashi Haidate',
+		feet = 'Naga Kyahan'
 	}
 	
 	sets.precast.weaponskill = {

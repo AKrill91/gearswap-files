@@ -9,11 +9,22 @@ function init()
 	end
 	
 	sets.precast.magic = {
+		main = 'Sucellus',
 		head = 'Haruspex Hat',
+		neck = 'Baetyl Pendant',
 		rear = 'Loquacious Earring',
+		rring = 'Weatherspoon Ring',
+		back = 'Swith Cape',
 		legs = 'Geomancy Pants',
-		back = 'Swith Cape'
+		feet = 'Merlinic Crackows'
 	}
+	
+	sets.precast.enhancing = set_combine(
+		sets.precast.magic,
+		{
+			waist = 'Siegel Sash'
+		}
+	)
 	
 	sets.precast.bolster = {
 		body = 'Bagua Tunic'
@@ -21,6 +32,10 @@ function init()
 	
 	sets.precast['radial arcana'] = {
 		feet = 'Bagua Sandals'
+	}
+	
+	sets.precast['healing magic'] = {
+		back = 'Disperser\'s Cape'
 	}
 	
 	sets.precast['elemental magic'] = {
@@ -43,6 +58,7 @@ function init()
 	
 	sets.midcast.geomancy = {
 		head = 'Azimuth Hood',
+		neck = 'Deceiver\'s Torque',
 		body = 'Bagua Tunic',
 		hands = 'Geomancy Mitaines'
 	}
@@ -53,15 +69,25 @@ function init()
 	}
 	
 	sets.midcast['elemental magic'] = {
-		head = 'Geomancy Galero',
+		main = 'Nibiru Cudgel',
+		head = 'Jhakri Coronal +1',
+		neck = 'Baetyl Pendant',
 		lear = 'Barkarole Earring',
 		rear = 'Friomisi Earring',
-		body = 'Azimuth Coat',
-		hands = 'Helios Gloves',
+		body = 'Jhakri Robe +1',
+		hands = 'Jhakri Cuffs +1',
 		lring = 'Perception Ring',
 		rring = 'Acumen Ring',
-		legs = 'Azimuth Tights',
-		feet = 'Wayfarer Clogs'
+		legs = 'Jhakri Slops +1',
+		feet = { 
+			name = "Merlinic Crackows", 
+			augments = {
+				'MND+10',
+				'AGI+2',
+				'Magic burst mdg.+10%',
+				'Mag. Acc.+19 "Mag.Atk.Bns."+19'
+			}
+		}
 	}
 	
 	sets.midcast['healing magic'] = {
@@ -70,27 +96,35 @@ function init()
 	}
 	
 	sets.midcast['dark magic'] = {
+		main = 'Nibiru Cudgel',
 		head = 'Bagua Galero',
 		body = 'Geomancy Tunic',
-		legs = 'Azimuth Tights'
+		legs = 'Azimuth Tights',
+		feet = 'Merlinic Crackows'
+	}
+	
+	sets.midcast['stoneskin'] = {
+		waist = 'Siegel Sash'
 	}
 	
 	sets.aftercast.idle = {
-		head = 'Azimuth Hood',
+		head = 'Jhakri Coronal +1',
 		neck = 'Wiglen Gorget',
 		lear = 'Ethereal Earring',
-		body = 'Azimuth Coat',
+		body = 'Jhakri Robe +1',
 		hands = 'Bagua Mitaines',
 		lring = 'Paguroidea Ring',
 		rring = 'Sheltered Ring',
 		back = 'Cheviot Cape',
-		legs = 'Telchine Braconi',
+		legs = 'Assiduity Pants +1',
 		feet = 'Geomancy Sandals'
 	}
 	
 	sets.aftercast.idlepet = {
+		main = 'Sucellus',
 		head = 'Azimuth Hood',
 		hands = 'Geomancy Mitaines',
+		legs = 'Psycloth Lappas',
 		feet = 'Bagua Sandals'
 	}
 	
@@ -104,12 +138,36 @@ function init()
 		feet = 'Espial Socks'
 	}
 	
-	sets.decorations.idle = {}
+	sets.decorations.aftercast.idle = {}
 	
-	sets.decorations.idle.refresh = {
-		legs = 'Stearc Subligar',
+	sets.decorations.aftercast.idle.refresh = {
 		feet = 'Serpentes Sabots'
 	}
+	
+	sets.decorations.aftercast.idle.pdt = {
+		lring = { 
+			name = "Dark Ring", 
+			augments = {
+				'Phys. dmg. taken -5%',
+				'Magic dmg. taken -4%'
+			}
+		},
+		rring = { 
+			name = "Dark Ring", 
+			augments = {
+				'Magic dmg. taken -5%',
+				'Phys. dmg. taken -4%'
+			}
+		},
+		feet = 'Jhakri Pigaches +1'
+	}
+	
+	sets.decorations.aftercast.idle.mdt = set_combine(
+		sets.decorations.aftercast.idle.pdt,
+		{
+			neck = 'Twilight Torque'
+		}
+	)
 end
 
 function handle_conditionals(spell, timing, status)
